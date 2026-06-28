@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jatin & Breanna - Wedding Reception Invitation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Great+Vibes:wght@400&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #D4AF37;
+            --secondary: #F5E6E0;
+            --background: #FFFBF7;
+            --foreground: #2C2C2C;
+            --muted: #E8D5CC;
+            --muted-fg: #6B6B6B;
+            --accent: #D4AF37;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(255, 251, 247, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(232, 213, 204, 0.5);
+            padding: 1rem 2rem;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .logo-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--foreground);
+            font-size: 0.875rem;
+            margin: 0 2rem;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .header-content { padding: 0 1rem; }
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-top: 60px;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(245, 230, 224, 0.4) 0%, rgba(212, 175, 55, 0.2) 50%, rgba(232, 213, 204, 0.4) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        /* Envelope Animation */
+        .envelope {
+            width: 280px;
+            height: 160px;
+            background: linear-gradient(135deg, var(--secondary) 0%, rgba(245, 230, 224, 0.9) 100%);
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            position: relative;
+            margin: 0 auto 2rem;
+            transform-style: preserve-3d;
+            transition: all 0.3s ease;
+        }
+
+        .envelope:hover {
+            box-shadow: 0 30px 80px rgba(212, 175, 55, 0.3);
+            transform: scale(1.05);
+        }
+
+        .envelope-front {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary) 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .envelope-heart {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            animation: heartBeat 1.5s ease-in-out infinite;
+        }
+
+        .envelope-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1rem;
+            color: var(--primary);
+        }
+
+        .envelope.opened {
+            animation: envelopeOpen 0.8s ease-out forwards;
+        }
+
+        @keyframes envelopeOpen {
+            0% { transform: scale(1) rotateY(0deg); opacity: 1; }
+            100% { transform: scale(0.8) rotateY(90deg); opacity: 0; }
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Main Content */
+        .main-content {
+            display: none;
+            animation: fadeIn 1s ease-out forwards;
+            margin-bottom: 2rem;
+        }
+
+        .main-content.show {
+            display: block;
+        }
+
+        .subtitle {
+            font-size: 0.875rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        .couple-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            animation: fadeInDown 1.2s ease-out;
+        }
+
+        .description {
+            font-size: 1.25rem;
+            color: var(--muted-fg);
+            margin-bottom: 2rem;
+        }
+
+        .date-card {
+            display: inline-block;
+            background: rgba(255, 251, 247, 0.95);
+            backdrop-filter: blur(12px);
+            padding: 2rem 3rem;
+            border-radius: 16px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .date-label {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .date-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--foreground);
+        }
+
+        .divider {
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            margin: 1.5rem auto;
+        }
+
+        /* Countdown Section */
+        .section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .countdown-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--background);
+            border: 1px solid var(--muted);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .countdown-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .countdown-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .countdown-label {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--muted-fg);
+        }
+
+        /* SVG Divider */
+        .divider-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Details Section */
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .details-text h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .details-text p {
+            margin-bottom: 1rem;
+            color: var(--muted-fg);
+            line-height: 1.8;
+        }
+
+        .rsvp-btn {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--background);
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-family: 'Lora', serif;
+        }
+
+        .rsvp-btn:hover {
+            background: #c9a961;
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .details-image {
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .details-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Schedule Section */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .schedule-card {
+            padding: 2rem;
+            background: var(--background);
+            border: 1px solid var(--muted);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .schedule-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
+            transform: translateY(-8px);
+        }
+
+        .schedule-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .schedule-card .time {
+            font-size: 0.875rem;
+            color: var(--muted-fg);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .schedule-card p {
+            color: var(--muted-fg);
+            line-height: 1.6;
+        }
+
+        /* Location Section */
+        .location-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .location-image {
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .location-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .venue-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .venue-address {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            color: var(--muted-fg);
+        }
+
+        .venue-icon {
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--background);
+            border-top: 1px solid var(--muted);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .footer-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-tagline {
+            color: var(--muted-fg);
+            margin-bottom: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.875rem;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--muted-fg);
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-copyright {
+            font-size: 0.75rem;
+            color: var(--muted-fg);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .couple-names { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
+            .details-grid, .location-grid { grid-template-columns: 1fr; }
+            .countdown-grid { grid-template-columns: repeat(2, 1fr); }
+            .date-card { padding: 1.5rem 2rem; }
+            .details-text h2, .location-info h2 { font-size: 1.75rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">💍</div>
+                <span class="logo-text">Jatin & Breanna</span>
+            </div>
+            <nav>
+                <a href="#details">Details</a>
+                <a href="#schedule">Schedule</a>
+                <a href="#location">Location</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="envelope" id="envelope">
+                <div class="envelope-front">
+                    <div class="envelope-heart">💌</div>
+                    <div class="envelope-text">Open me</div>
+                </div>
+            </div>
+
+            <div class="main-content" id="mainContent">
+                <div class="subtitle">Together with their families</div>
+                <h1 class="couple-names">Jatin & Breanna</h1>
+                <p class="description">request the pleasure of your company at their</p>
+                <p class="description" style="font-size: 1.5rem; color: var(--primary);">Wedding Reception</p>
+
+                <div class="date-card">
+                    <div class="date-label">Date</div>
+                    <div class="date-value">26th July, 2026</div>
+                    <div class="divider"></div>
+                    <div class="date-label">Time</div>
+                    <div class="date-value">Evening Celebration</div>
+                    <div class="divider"></div>
+                    <div class="date-label">Location</div>
+                    <div class="date-value" style="font-size: 1.25rem;">Mariton Hotel, Jalandhar</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <svg class="divider-svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <defs>
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#F5E6E0;stop-opacity:1" />
+                <stop offset="50%" style="stop-color:#D4AF37;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#E8D5CC;stop-opacity:1" />
+            </linearGradient>
+        </defs>
+        <path d="M0,40 Q300,80 600,40 T1200,40 L1200,120 L0,120 Z" fill="url(#grad1)"/>
+    </svg>
+
+    <!-- Countdown Section -->
+    <section class="section" style="background: linear-gradient(to bottom, rgba(245, 230, 224, 0.3), transparent);">
+        <h2 class="section-title">Time Until Celebration</h2>
+        <div class="countdown-grid" id="countdownGrid">
+            <div class="countdown-item">
+                <div class="countdown-number" id="days">0</div>
+                <div class="countdown-label">Days</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="hours">0</div>
+                <div class="countdown-label">Hours</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="minutes">0</div>
+                <div class="countdown-label">Minutes</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="seconds">0</div>
+                <div class="countdown-label">Seconds</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <svg class="divider-svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,80 Q300,40 600,80 T1200,80 L1200,0 L0,0 Z" fill="#FFFBF7"/>
+    </svg>
+
+    <!-- Details Section -->
+    <section class="section" id="details">
+        <div class="details-grid">
+            <div class="details-text">
+                <h2>Celebrate with Us</h2>
+                <p>Join us for an evening of elegance, joy, and celebration as we unite in matrimony. Your presence means the world to us as we begin this beautiful journey together.</p>
+                <p>We look forward to sharing this special moment with you and creating memories that will last a lifetime.</p>
+                <button class="rsvp-btn" onclick="alert('Thank you! RSVP functionality coming soon.')">💌 RSVP with Joy</button>
+            </div>
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect fill='%23F5E6E0' width='400' height='400'/%3E%3Ccircle cx='200' cy='150' r='80' fill='%23E8D5CC' opacity='0.6'/%3E%3Ccircle cx='150' cy='250' r='60' fill='%23D4AF37' opacity='0.4'/%3E%3Ccircle cx='280' cy='280' r='50' fill='%23E8D5CC' opacity='0.5'/%3E%3C/svg%3E" alt="Floral" class="details-image" style="width: 100%; max-width: 400px;">
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <svg class="divider-svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <defs>
+            <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#F5E6E0;stop-opacity:1" />
+                <stop offset="50%" style="stop-color:#D4AF37;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#E8D5CC;stop-opacity:1" />
+            </linearGradient>
+        </defs>
+        <path d="M0,40 Q300,80 600,40 T1200,40 L1200,120 L0,120 Z" fill="url(#grad2)"/>
+    </svg>
+
+    <!-- Schedule Section -->
+    <section class="section" style="background: rgba(245, 230, 224, 0.2);" id="schedule">
+        <h2 class="section-title">The Celebrations</h2>
+        <div class="schedule-grid">
+            <div class="schedule-card">
+                <h3>Reception Evening</h3>
+                <div class="time">26th July • 7:00 PM onwards</div>
+                <p>Join us for an elegant evening of celebration, delicious cuisine, and cherished moments.</p>
+            </div>
+            <div class="schedule-card">
+                <h3>Dinner & Dancing</h3>
+                <div class="time">26th July • 8:00 PM onwards</div>
+                <p>Enjoy a sumptuous dinner followed by dancing and entertainment throughout the evening.</p>
+            </div>
+            <div class="schedule-card">
+                <h3>Farewell Brunch</h3>
+                <div class="time">27th July • 10:00 AM</div>
+                <p>A relaxed morning celebration with close family and friends to bid farewell.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <svg class="divider-svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,80 Q300,40 600,80 T1200,80 L1200,0 L0,0 Z" fill="#FFFBF7"/>
+    </svg>
+
+    <!-- Location Section -->
+    <section class="section" id="location">
+        <div class="location-grid">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect fill='%23E8D5CC' width='400' height='400'/%3E%3Ccircle cx='100' cy='100' r='40' fill='%23F5E6E0' opacity='0.7'/%3E%3Ccircle cx='300' cy='150' r='50' fill='%23D4AF37' opacity='0.3'/%3E%3Ccircle cx='200' cy='300' r='60' fill='%23F5E6E0' opacity='0.5'/%3E%3C/svg%3E" alt="Venue" class="location-image" style="width: 100%; max-width: 400px;">
+            <div class="location-info">
+                <h2>Venue</h2>
+                <div class="venue-name">Mariton Hotel</div>
+                <div class="venue-address">
+                    <span class="venue-icon">📍</span>
+                    <div>
+                        <p><strong>Jalandhar, Punjab</strong></p>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">A luxurious venue perfect for an unforgettable celebration with world-class amenities.</p>
+                    </div>
+                </div>
+                <p style="margin-bottom: 1.5rem; color: var(--muted-fg);">We have arranged special accommodations for our guests. Please reach out if you need assistance with travel or lodging.</p>
+                <button class="rsvp-btn" onclick="alert('Directions feature coming soon!')">🗺️ Get Directions</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">💍</div>
+        <div class="footer-names">Jatin & Breanna</div>
+        <div class="footer-tagline">Together, forever, starting 26th July 2026</div>
+        <div class="footer-links">
+            <a href="#">Contact</a>
+            <span>•</span>
+            <a href="#">Gallery</a>
+            <span>•</span>
+            <a href="#">Registry</a>
+        </div>
+        <div class="footer-copyright">© 2026 Jatin & Breanna. All rights reserved.</div>
+    </footer>
+
+    <script>
+        // Envelope click handler
+        document.getElementById('envelope').addEventListener('click', function() {
+            this.classList.add('opened');
+            document.getElementById('mainContent').classList.add('show');
+        });
+
+        // Countdown timer
+        function updateCountdown() {
+            const eventDate = new Date('2026-07-26T00:00:00').getTime();
+            const now = new Date().getTime();
+            const difference = eventDate - now;
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((difference / 1000 / 60) % 60);
+                const seconds = Math.floor((difference / 1000) % 60);
+
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            }
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
