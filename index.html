@@ -2,732 +2,990 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jatin & Breanna - Wedding Reception Invitation</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Great+Vibes:wght@400&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>You are Invited - Jatin & Breanna's Wedding</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        :root {
-            --primary: #D4AF37;
-            --secondary: #F5E6E0;
-            --background: #FFFBF7;
-            --foreground: #2C2C2C;
-            --muted: #E8D5CC;
-            --muted-fg: #6B6B6B;
-            --accent: #D4AF37;
-        }
-
-        body {
-            font-family: 'Lora', serif;
-            background-color: var(--background);
-            color: var(--foreground);
-            line-height: 1.6;
+        html, body {
+            width: 100%;
+            height: 100%;
             overflow-x: hidden;
         }
 
-        /* Header */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 50;
-            background: rgba(255, 251, 247, 0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(232, 213, 204, 0.5);
-            padding: 1rem 2rem;
+        body {
+            font-family: 'Georgia', 'Garamond', serif;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 100%);
+            background-attachment: fixed;
         }
 
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .invitation-container {
+            width: 100%;
+            position: relative;
         }
 
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .logo {
-            width: 40px;
-            height: 40px;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .logo-text {
-            font-family: 'Great Vibes', cursive;
-            font-size: 1.25rem;
-            color: var(--primary);
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--foreground);
-            font-size: 0.875rem;
-            margin: 0 2rem;
-            transition: color 0.3s ease;
-        }
-
-        nav a:hover {
-            color: var(--primary);
-        }
-
-        @media (max-width: 768px) {
-            nav { display: none; }
-            .header-content { padding: 0 1rem; }
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
+        /* ===== SECTION 1: ENVELOPE COVER ===== */
+        .section {
+            width: 100%;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            margin-top: 60px;
             overflow: hidden;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(245, 230, 224, 0.4) 0%, rgba(212, 175, 55, 0.2) 50%, rgba(232, 213, 204, 0.4) 100%);
-            z-index: 1;
-        }
-
-        .hero-content {
+        .envelope-section {
+            background: linear-gradient(135deg, #f0e6d2 0%, #e8d5c4 100%);
             position: relative;
-            z-index: 2;
-            text-align: center;
-        }
-
-        /* Envelope Animation */
-        .envelope {
-            width: 280px;
-            height: 160px;
-            background: linear-gradient(135deg, var(--secondary) 0%, rgba(245, 230, 224, 0.9) 100%);
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-            cursor: pointer;
-            position: relative;
-            margin: 0 auto 2rem;
-            transform-style: preserve-3d;
-            transition: all 0.3s ease;
-        }
-
-        .envelope:hover {
-            box-shadow: 0 30px 80px rgba(212, 175, 55, 0.3);
-            transform: scale(1.05);
-        }
-
-        .envelope-front {
-            position: absolute;
-            inset: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary) 100%);
-            border-radius: 12px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
-        .envelope-heart {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            animation: heartBeat 1.5s ease-in-out infinite;
+        .envelope-section:active {
+            background: linear-gradient(135deg, #f5ead8 0%, #ede0d0 100%);
+        }
+
+        .envelope-flap {
+            width: 280px;
+            height: 180px;
+            background: linear-gradient(135deg, #e8d5c4 0%, #d9c4b0 100%);
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            position: absolute;
+            top: 80px;
+            animation: flapOpen 1.5s ease-in-out forwards;
+            transform-origin: top;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            will-change: transform;
+        }
+
+        @keyframes flapOpen {
+            0% {
+                transform: rotateX(0deg);
+            }
+            100% {
+                transform: rotateX(-180deg);
+            }
+        }
+
+        .envelope-body {
+            width: 280px;
+            height: 180px;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 100%);
+            border: 3px solid #d4a574;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .wax-seal {
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle at 30% 30%, #ffd700, #ffed4e, #d4af37);
+            border-radius: 50%;
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4), inset -2px -2px 5px rgba(0, 0, 0, 0.2);
+            animation: sealPulse 2s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        @keyframes sealPulse {
+            0%, 100% {
+                transform: translateX(-50%) scale(1);
+            }
+            50% {
+                transform: translateX(-50%) scale(1.05);
+            }
+        }
+
+        .seal-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: rgba(255, 255, 255, 0.3);
+            font-weight: bold;
         }
 
         .envelope-text {
-            font-family: 'Great Vibes', cursive;
-            font-size: 1rem;
-            color: var(--primary);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1;
+            animation: textFade 1s ease-in-out 0.5s forwards;
+            opacity: 0;
+            width: 100%;
         }
 
-        .envelope.opened {
-            animation: envelopeOpen 0.8s ease-out forwards;
+        @keyframes textFade {
+            to {
+                opacity: 1;
+            }
         }
 
-        @keyframes envelopeOpen {
-            0% { transform: scale(1) rotateY(0deg); opacity: 1; }
-            100% { transform: scale(0.8) rotateY(90deg); opacity: 0; }
-        }
-
-        @keyframes heartBeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        /* Main Content */
-        .main-content {
-            display: none;
-            animation: fadeIn 1s ease-out forwards;
-            margin-bottom: 2rem;
-        }
-
-        .main-content.show {
-            display: block;
-        }
-
-        .subtitle {
-            font-size: 0.875rem;
+        .envelope-text h1 {
+            font-size: clamp(32px, 8vw, 48px);
+            color: #8b7355;
+            font-style: italic;
+            font-weight: 300;
             letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            animation: shimmer 3s ease-in-out infinite;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+        }
+
+        .click-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px;
+            color: #a89968;
+            animation: bounce 2s infinite;
+            z-index: 4;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+
+        /* ===== SECTION 2: MAIN INVITATION ===== */
+        .invitation-section {
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(240, 230, 220, 0.95));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .floral-arch {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 1000"><defs><style>.flower{fill:%23d4a5a5;opacity:0.3;}.leaf{fill:%2390c590;opacity:0.2;}</style></defs><circle cx="50" cy="100" r="20" class="flower"/><circle cx="450" cy="120" r="20" class="flower"/><circle cx="80" cy="200" r="15" class="flower"/><circle cx="420" cy="180" r="15" class="flower"/><circle cx="60" cy="300" r="18" class="flower"/><circle cx="440" cy="280" r="18" class="flower"/><path d="M 40 150 Q 30 160 40 170" class="leaf"/><path d="M 460 160 Q 470 170 460 180" class="leaf"/></svg>') repeat-y;
+            background-size: 100% 200px;
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out 0.5s forwards;
+        }
+
+        .invitation-content {
+            position: relative;
+            z-index: 2;
+            padding: clamp(40px, 8vw, 60px) clamp(30px, 5vw, 40px);
+            text-align: center;
+            animation: slideUp 1s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .invitation-content h2 {
+            font-size: clamp(18px, 5vw, 28px);
+            color: #2c2c2c;
+            margin-bottom: 20px;
+            font-weight: 400;
+            letter-spacing: 1px;
         }
 
         .couple-names {
-            font-family: 'Great Vibes', cursive;
-            font-size: 4rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            animation: fadeInDown 1.2s ease-out;
+            font-size: clamp(36px, 12vw, 56px);
+            color: #8b7355;
+            font-style: italic;
+            margin: 30px 0;
+            font-weight: 300;
+            animation: fadeIn 1.5s ease-out 0.8s forwards;
+            opacity: 0;
         }
 
-        .description {
-            font-size: 1.25rem;
-            color: var(--muted-fg);
-            margin-bottom: 2rem;
-        }
-
-        .date-card {
-            display: inline-block;
-            background: rgba(255, 251, 247, 0.95);
-            backdrop-filter: blur(12px);
-            padding: 2rem 3rem;
-            border-radius: 16px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            animation: fadeInUp 1s ease-out 0.3s both;
-        }
-
-        .date-label {
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .date-value {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
-            color: var(--foreground);
-        }
-
-        .divider {
-            width: 40px;
+        .decorative-line {
+            width: 60px;
             height: 2px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            margin: 1.5rem auto;
+            background: linear-gradient(to right, transparent, #d4a574, transparent);
+            margin: 20px auto;
+            animation: expandWidth 1s ease-out 1s forwards;
+            width: 0;
         }
 
-        /* Countdown Section */
-        .section {
-            padding: 4rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+        @keyframes expandWidth {
+            to {
+                width: 60px;
+            }
         }
 
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
+        /* ===== SECTION 3: COUNTDOWN ===== */
+        .countdown-section {
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 50%, #f5e6d3 100%);
+            position: relative;
+            overflow: hidden;
+            padding: clamp(40px, 8vw, 60px) clamp(20px, 5vw, 40px);
+        }
+
+        .countdown-container {
+            position: relative;
+            z-index: 2;
             text-align: center;
-            margin-bottom: 3rem;
-            animation: fadeIn 0.8s ease-out;
+            animation: slideUp 1s ease-out 0.3s forwards;
+            opacity: 0;
         }
 
-        .countdown-grid {
+        .countdown-title {
+            font-size: clamp(28px, 8vw, 40px);
+            color: #8b7355;
+            font-style: italic;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .countdown-timer {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: clamp(12px, 3vw, 20px);
+            margin: 30px 0;
+            max-width: 100%;
         }
 
         .countdown-item {
-            text-align: center;
-            padding: 1.5rem;
-            background: var(--background);
-            border: 1px solid var(--muted);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            animation: fadeInUp 0.8s ease-out;
-        }
-
-        .countdown-item:hover {
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
-            transform: translateY(-5px);
-        }
-
-        .countdown-number {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .countdown-label {
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--muted-fg);
-        }
-
-        /* SVG Divider */
-        .divider-svg {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* Details Section */
-        .details-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-            margin-bottom: 3rem;
-        }
-
-        .details-text h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .details-text p {
-            margin-bottom: 1rem;
-            color: var(--muted-fg);
-            line-height: 1.8;
-        }
-
-        .rsvp-btn {
-            display: inline-block;
-            background: var(--primary);
-            color: var(--background);
-            padding: 0.75rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-family: 'Lora', serif;
-        }
-
-        .rsvp-btn:hover {
-            background: #c9a961;
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
-        }
-
-        .details-image {
-            border-radius: 16px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .details-image:hover {
-            transform: scale(1.05);
-            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Schedule Section */
-        .schedule-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .schedule-card {
-            padding: 2rem;
-            background: var(--background);
-            border: 1px solid var(--muted);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            animation: fadeInUp 0.8s ease-out;
-        }
-
-        .schedule-card:hover {
-            border-color: var(--primary);
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
-            transform: translateY(-8px);
-        }
-
-        .schedule-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .schedule-card .time {
-            font-size: 0.875rem;
-            color: var(--muted-fg);
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .schedule-card p {
-            color: var(--muted-fg);
-            line-height: 1.6;
-        }
-
-        /* Location Section */
-        .location-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .location-image {
-            border-radius: 16px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-        }
-
-        .location-info h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .venue-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .venue-address {
             display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            color: var(--muted-fg);
-        }
-
-        .venue-icon {
-            color: var(--primary);
-            flex-shrink: 0;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--background);
-            border-top: 1px solid var(--muted);
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-
-        .footer-logo {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 1.5rem;
-        }
-
-        .footer-names {
-            font-family: 'Great Vibes', cursive;
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-tagline {
-            color: var(--muted-fg);
-            margin-bottom: 2rem;
-        }
-
-        .footer-links {
-            display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-            font-size: 0.875rem;
         }
 
-        .footer-links a {
-            text-decoration: none;
-            color: var(--muted-fg);
-            transition: color 0.3s ease;
+        .countdown-box {
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+            border: 2px solid #d4a574;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+            opacity: 0;
+            position: relative;
+            overflow: hidden;
+            will-change: transform;
         }
 
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .footer-copyright {
-            font-size: 0.75rem;
-            color: var(--muted-fg);
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .countdown-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            animation: shimmer 3s infinite;
         }
 
         @keyframes shimmer {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+            0% {
+                transform: translate(-100%, -100%);
+            }
+            100% {
+                transform: translate(100%, 100%);
+            }
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .couple-names { font-size: 2.5rem; }
-            .section-title { font-size: 2rem; }
-            .details-grid, .location-grid { grid-template-columns: 1fr; }
-            .countdown-grid { grid-template-columns: repeat(2, 1fr); }
-            .date-card { padding: 1.5rem 2rem; }
-            .details-text h2, .location-info h2 { font-size: 1.75rem; }
+        .countdown-box:nth-child(1) {
+            animation-delay: 0.2s;
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            * { animation: none !important; transition: none !important; }
+        .countdown-box:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .countdown-box:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .countdown-box:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) rotateZ(-10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotateZ(0deg);
+            }
+        }
+
+        .countdown-number {
+            font-size: clamp(24px, 8vw, 42px);
+            font-weight: 700;
+            color: #d4a574;
+            line-height: 1;
+            position: relative;
+            z-index: 1;
+            font-family: 'Arial', sans-serif;
+            letter-spacing: 2px;
+        }
+
+        .countdown-label {
+            font-size: clamp(11px, 3vw, 14px);
+            color: #8b7355;
+            margin-top: clamp(8px, 2vw, 12px);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            font-family: 'Arial', sans-serif;
+            position: relative;
+            z-index: 1;
+        }
+
+        .floral-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 1000"><defs><style>.petal{fill:%23e8a5c5;opacity:0.15;}.stem{stroke:%2390c590;stroke-width:2;opacity:0.1;}</style></defs><circle cx="100" cy="150" r="25" class="petal"/><circle cx="400" cy="200" r="30" class="petal"/><circle cx="150" cy="400" r="28" class="petal"/><circle cx="350" cy="450" r="25" class="petal"/><line x1="100" y1="0" x2="100" y2="150" class="stem"/><line x1="400" y1="0" x2="400" y2="200" class="stem"/></svg>') repeat;
+            background-size: 100% 300px;
+            opacity: 0.5;
+            z-index: 1;
+        }
+
+        /* ===== SECTION 4: SAVE THE DATE ===== */
+        .save-date-section {
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 50%, #f5e6d3 100%);
+            position: relative;
+            overflow: hidden;
+            padding: clamp(40px, 8vw, 60px) clamp(20px, 5vw, 40px);
+        }
+
+        .date-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            animation: slideUp 1s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+
+        .save-date-title {
+            font-size: clamp(28px, 8vw, 36px);
+            color: #8b7355;
+            font-style: italic;
+            margin-bottom: 30px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .date-boxes {
+            display: flex;
+            justify-content: center;
+            gap: clamp(12px, 3vw, 20px);
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .date-box {
+            flex: 0 1 calc(33.333% - 14px);
+            max-width: 100px;
+            aspect-ratio: 1;
+            background: white;
+            border: 2px solid #d4a574;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+            opacity: 0;
+        }
+
+        .date-box:nth-child(1) {
+            animation-delay: 0.4s;
+        }
+
+        .date-box:nth-child(2) {
+            animation-delay: 0.6s;
+        }
+
+        .date-box:nth-child(3) {
+            animation-delay: 0.8s;
+        }
+
+        .date-number {
+            font-size: clamp(24px, 6vw, 36px);
+            font-weight: bold;
+            color: #2c2c2c;
+            line-height: 1;
+        }
+
+        .date-label {
+            font-size: clamp(10px, 2.5vw, 12px);
+            color: #8b7355;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* ===== SECTION 5: VENUE ===== */
+        .venue-section {
+            background: linear-gradient(to bottom, #f5e6d3, #e8d5c4);
+            position: relative;
+            overflow: hidden;
+            padding: clamp(40px, 8vw, 60px) clamp(20px, 5vw, 40px);
+        }
+
+        .venue-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            animation: slideUp 1s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+
+        .venue-title {
+            font-size: clamp(32px, 10vw, 48px);
+            color: #8b7355;
+            font-style: italic;
+            margin-bottom: 20px;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+
+        .venue-details {
+            background: rgba(255, 255, 255, 0.8);
+            padding: clamp(20px, 5vw, 30px);
+            border-radius: 10px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .venue-name {
+            font-size: clamp(18px, 5vw, 24px);
+            color: #2c2c2c;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .venue-address {
+            font-size: clamp(14px, 4vw, 16px);
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .venue-image {
+            width: 100%;
+            max-width: 300px;
+            height: 200px;
+            background: linear-gradient(135deg, #b8956a 0%, #8b7355 100%);
+            border-radius: 10px;
+            margin: 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: slideInRight 1s ease-out 0.5s forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ===== SECTION 6: LOCATION MAP ===== */
+        .map-section {
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(40px, 8vw, 60px) clamp(20px, 5vw, 40px);
+            min-height: 100vh;
+        }
+
+        .map-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            animation: slideUp 1s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+
+        .location-pin {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 50% 85%, 18% 100%, 0% 38%);
+            margin: 0 auto 30px;
+            box-shadow: 0 10px 30px rgba(204, 0, 0, 0.3);
+            animation: bounce 2s infinite;
+            will-change: transform;
+        }
+
+        .location-text {
+            font-size: clamp(20px, 6vw, 24px);
+            color: #8b7355;
+            margin-top: 30px;
+        }
+
+        /* ===== SECTION 7: CLOSING ===== */
+        .closing-section {
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 100%);
+            position: relative;
+            overflow: hidden;
+            padding: clamp(40px, 8vw, 60px) clamp(20px, 5vw, 40px);
+        }
+
+        .closing-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            animation: slideUp 1s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+
+        .closing-text {
+            font-size: clamp(24px, 8vw, 32px);
+            color: #8b7355;
+            font-style: italic;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .closing-message {
+            font-size: clamp(14px, 4vw, 16px);
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: clamp(12px, 3vw, 15px) clamp(30px, 8vw, 40px);
+            background: linear-gradient(135deg, #d4a574, #c9945f);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: clamp(14px, 4vw, 16px);
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(212, 165, 116, 0.3);
+            border: none;
+            cursor: pointer;
+            -webkit-appearance: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .cta-button:active {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(212, 165, 116, 0.4);
+            background: linear-gradient(135deg, #ddb581, #d4a574);
+        }
+
+        /* ===== SCROLL INDICATORS ===== */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            animation: fadeInOut 2s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .scroll-indicator svg {
+            width: 30px;
+            height: 30px;
+            stroke: #8b7355;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        /* ===== CONFETTI ANIMATION ===== */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #d4a574;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ===== RESPONSIVE ADJUSTMENTS ===== */
+        @media (max-width: 480px) {
+            .envelope-flap {
+                width: 240px;
+                height: 150px;
+                top: 60px;
+            }
+
+            .envelope-body {
+                width: 240px;
+                height: 150px;
+            }
+
+            .wax-seal {
+                width: 60px;
+                height: 60px;
+                top: 40px;
+            }
+
+            .countdown-timer {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .countdown-box {
+                max-width: 100%;
+            }
+
+            .countdown-box:nth-child(3) {
+                animation-delay: 0.6s;
+            }
+
+            .countdown-box:nth-child(4) {
+                animation-delay: 0.8s;
+            }
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Touch-friendly spacing */
+        button, a {
+            min-height: 44px;
+            min-width: 44px;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="header-content">
-            <div class="logo-section">
-                <div class="logo">💍</div>
-                <span class="logo-text">Jatin & Breanna</span>
-            </div>
-            <nav>
-                <a href="#details">Details</a>
-                <a href="#schedule">Schedule</a>
-                <a href="#location">Location</a>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="envelope" id="envelope">
-                <div class="envelope-front">
-                    <div class="envelope-heart">💌</div>
-                    <div class="envelope-text">Open me</div>
+    <div class="invitation-container">
+        <!-- SECTION 1: ENVELOPE COVER -->
+        <section class="section envelope-section" id="envelopeSection">
+            <div class="envelope-flap"></div>
+            <div class="envelope-body">
+                <div class="wax-seal">
+                    <div class="seal-inner">✦</div>
+                </div>
+                <div class="envelope-text">
+                    <h1>You are Invited</h1>
                 </div>
             </div>
+            <div class="click-hint">Click to open</div>
+        </section>
 
-            <div class="main-content" id="mainContent">
-                <div class="subtitle">Together with their families</div>
-                <h1 class="couple-names">Jatin & Breanna</h1>
-                <p class="description">request the pleasure of your company at their</p>
-                <p class="description" style="font-size: 1.5rem; color: var(--primary);">Wedding Reception</p>
-
-                <div class="date-card">
-                    <div class="date-label">Date</div>
-                    <div class="date-value">26th July, 2026</div>
-                    <div class="divider"></div>
-                    <div class="date-label">Time</div>
-                    <div class="date-value">Evening Celebration</div>
-                    <div class="divider"></div>
-                    <div class="date-label">Location</div>
-                    <div class="date-value" style="font-size: 1.25rem;">Mariton Hotel, Jalandhar</div>
-                </div>
+        <!-- SECTION 2: MAIN INVITATION -->
+        <section class="section invitation-section">
+            <div class="floral-arch"></div>
+            <div class="invitation-content">
+                <h2>Celebrate the wedding reception of</h2>
+                <div class="decorative-line"></div>
+                <div class="couple-names">Jatin & Breanna</div>
+                <div class="decorative-line"></div>
+                <p style="font-size: clamp(14px, 4vw, 18px); color: #666; margin-top: 30px; line-height: 1.8;">
+                    Together with their families<br>
+                    request the honour of your presence<br>
+                    at the celebration of their marriage
+                </p>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Divider -->
-    <svg class="divider-svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <defs>
-            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#F5E6E0;stop-opacity:1" />
-                <stop offset="50%" style="stop-color:#D4AF37;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#E8D5CC;stop-opacity:1" />
-            </linearGradient>
-        </defs>
-        <path d="M0,40 Q300,80 600,40 T1200,40 L1200,120 L0,120 Z" fill="url(#grad1)"/>
-    </svg>
-
-    <!-- Countdown Section -->
-    <section class="section" style="background: linear-gradient(to bottom, rgba(245, 230, 224, 0.3), transparent);">
-        <h2 class="section-title">Time Until Celebration</h2>
-        <div class="countdown-grid" id="countdownGrid">
-            <div class="countdown-item">
-                <div class="countdown-number" id="days">0</div>
-                <div class="countdown-label">Days</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="hours">0</div>
-                <div class="countdown-label">Hours</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="minutes">0</div>
-                <div class="countdown-label">Minutes</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="seconds">0</div>
-                <div class="countdown-label">Seconds</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Divider -->
-    <svg class="divider-svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <path d="M0,80 Q300,40 600,80 T1200,80 L1200,0 L0,0 Z" fill="#FFFBF7"/>
-    </svg>
-
-    <!-- Details Section -->
-    <section class="section" id="details">
-        <div class="details-grid">
-            <div class="details-text">
-                <h2>Celebrate with Us</h2>
-                <p>Join us for an evening of elegance, joy, and celebration as we unite in matrimony. Your presence means the world to us as we begin this beautiful journey together.</p>
-                <p>We look forward to sharing this special moment with you and creating memories that will last a lifetime.</p>
-                <button class="rsvp-btn" onclick="alert('Thank you! RSVP functionality coming soon.')">💌 RSVP with Joy</button>
-            </div>
-            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect fill='%23F5E6E0' width='400' height='400'/%3E%3Ccircle cx='200' cy='150' r='80' fill='%23E8D5CC' opacity='0.6'/%3E%3Ccircle cx='150' cy='250' r='60' fill='%23D4AF37' opacity='0.4'/%3E%3Ccircle cx='280' cy='280' r='50' fill='%23E8D5CC' opacity='0.5'/%3E%3C/svg%3E" alt="Floral" class="details-image" style="width: 100%; max-width: 400px;">
-        </div>
-    </section>
-
-    <!-- Divider -->
-    <svg class="divider-svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <defs>
-            <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#F5E6E0;stop-opacity:1" />
-                <stop offset="50%" style="stop-color:#D4AF37;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#E8D5CC;stop-opacity:1" />
-            </linearGradient>
-        </defs>
-        <path d="M0,40 Q300,80 600,40 T1200,40 L1200,120 L0,120 Z" fill="url(#grad2)"/>
-    </svg>
-
-    <!-- Schedule Section -->
-    <section class="section" style="background: rgba(245, 230, 224, 0.2);" id="schedule">
-        <h2 class="section-title">The Celebrations</h2>
-        <div class="schedule-grid">
-            <div class="schedule-card">
-                <h3>Reception Evening</h3>
-                <div class="time">26th July • 7:00 PM onwards</div>
-                <p>Join us for an elegant evening of celebration, delicious cuisine, and cherished moments.</p>
-            </div>
-            <div class="schedule-card">
-                <h3>Dinner & Dancing</h3>
-                <div class="time">26th July • 8:00 PM onwards</div>
-                <p>Enjoy a sumptuous dinner followed by dancing and entertainment throughout the evening.</p>
-            </div>
-            <div class="schedule-card">
-                <h3>Farewell Brunch</h3>
-                <div class="time">27th July • 10:00 AM</div>
-                <p>A relaxed morning celebration with close family and friends to bid farewell.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Divider -->
-    <svg class="divider-svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <path d="M0,80 Q300,40 600,80 T1200,80 L1200,0 L0,0 Z" fill="#FFFBF7"/>
-    </svg>
-
-    <!-- Location Section -->
-    <section class="section" id="location">
-        <div class="location-grid">
-            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect fill='%23E8D5CC' width='400' height='400'/%3E%3Ccircle cx='100' cy='100' r='40' fill='%23F5E6E0' opacity='0.7'/%3E%3Ccircle cx='300' cy='150' r='50' fill='%23D4AF37' opacity='0.3'/%3E%3Ccircle cx='200' cy='300' r='60' fill='%23F5E6E0' opacity='0.5'/%3E%3C/svg%3E" alt="Venue" class="location-image" style="width: 100%; max-width: 400px;">
-            <div class="location-info">
-                <h2>Venue</h2>
-                <div class="venue-name">Mariton Hotel</div>
-                <div class="venue-address">
-                    <span class="venue-icon">📍</span>
-                    <div>
-                        <p><strong>Jalandhar, Punjab</strong></p>
-                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">A luxurious venue perfect for an unforgettable celebration with world-class amenities.</p>
+        <!-- SECTION 3: COUNTDOWN TIMER -->
+        <section class="section countdown-section">
+            <div class="floral-background"></div>
+            <div class="countdown-container">
+                <h3 class="countdown-title">Time Until the Big Day</h3>
+                <div class="countdown-timer">
+                    <div class="countdown-item">
+                        <div class="countdown-box">
+                            <div>
+                                <div class="countdown-number" id="days">0</div>
+                                <div class="countdown-label">Days</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-box">
+                            <div>
+                                <div class="countdown-number" id="hours">0</div>
+                                <div class="countdown-label">Hours</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-box">
+                            <div>
+                                <div class="countdown-number" id="minutes">0</div>
+                                <div class="countdown-label">Minutes</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-box">
+                            <div>
+                                <div class="countdown-number" id="seconds">0</div>
+                                <div class="countdown-label">Seconds</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <p style="margin-bottom: 1.5rem; color: var(--muted-fg);">We have arranged special accommodations for our guests. Please reach out if you need assistance with travel or lodging.</p>
-                <button class="rsvp-btn" onclick="alert('Directions feature coming soon!')">🗺️ Get Directions</button>
+                <p style="font-size: clamp(14px, 4vw, 16px); color: #8b7355; margin-top: 30px; font-weight: 500;">
+                    July 26, 2026
+                </p>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-logo">💍</div>
-        <div class="footer-names">Jatin & Breanna</div>
-        <div class="footer-tagline">Together, forever, starting 26th July 2026</div>
-        <div class="footer-links">
-            <a href="#">Contact</a>
-            <span>•</span>
-            <a href="#">Gallery</a>
-            <span>•</span>
-            <a href="#">Registry</a>
-        </div>
-        <div class="footer-copyright">© 2026 Jatin & Breanna. All rights reserved.</div>
-    </footer>
+        <!-- SECTION 4: SAVE THE DATE -->
+        <section class="section save-date-section">
+            <div class="floral-background"></div>
+            <div class="date-container">
+                <h3 class="save-date-title">Save the Date</h3>
+                <div class="date-boxes">
+                    <div class="date-box">
+                        <div class="date-number">26</div>
+                        <div class="date-label">Day</div>
+                    </div>
+                    <div class="date-box">
+                        <div class="date-number">07</div>
+                        <div class="date-label">Month</div>
+                    </div>
+                    <div class="date-box">
+                        <div class="date-number">26</div>
+                        <div class="date-label">Year</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: VENUE -->
+        <section class="section venue-section">
+            <div class="venue-content">
+                <h3 class="venue-title">Venue</h3>
+                <div class="decorative-line"></div>
+                <div class="venue-details">
+                    <div class="venue-name">Hotel Mariton, Grand</div>
+                    <div class="venue-address">
+                        Grand Trunk Rd<br>
+                        Jalandhar
+                    </div>
+                </div>
+                <div class="venue-image">
+                    🏨 Hotel Mariton, Grand<br>
+                    <small>A luxurious venue for your celebration</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: LOCATION MAP -->
+        <section class="section map-section">
+            <div class="map-content">
+                <div class="location-pin"></div>
+                <div class="location-text">Find Us Here</div>
+                <p style="font-size: clamp(13px, 3.5vw, 14px); color: #666; margin-top: 20px;">
+                    Grand Trunk Rd, Jalandhar<br>
+                    <a href="https://maps.google.com/?q=Hotel+Mariton+Jalandhar" target="_blank" style="color: #d4a574; text-decoration: none; font-weight: 600;">Get Directions →</a>
+                </p>
+            </div>
+        </section>
+
+        <!-- SECTION 7: CLOSING -->
+        <section class="section closing-section">
+            <div class="closing-content">
+                <h3 class="closing-text">We Can't Wait!</h3>
+                <p class="closing-message">
+                    Your presence is the greatest gift.<br>
+                    Join us for an unforgettable celebration<br>
+                    of love, joy, and togetherness.
+                </p>
+                <button class="cta-button" onclick="handleRSVP()">RSVP Now</button>
+                <p style="font-size: clamp(12px, 3vw, 14px); color: #999; margin-top: 30px;">
+                    Kindly confirm your attendance by July 20, 2026
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <!-- SCROLL INDICATOR -->
+    <div class="scroll-indicator" id="scrollIndicator">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+    </div>
 
     <script>
-        // Envelope click handler
-        document.getElementById('envelope').addEventListener('click', function() {
-            this.classList.add('opened');
-            document.getElementById('mainContent').classList.add('show');
-        });
-
-        // Countdown timer
+        // Countdown Timer
         function updateCountdown() {
-            const eventDate = new Date('2026-07-26T00:00:00').getTime();
+            const weddingDate = new Date('2026-07-26T00:00:00').getTime();
             const now = new Date().getTime();
-            const difference = eventDate - now;
+            const distance = weddingDate - now;
 
-            if (difference > 0) {
-                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-                const minutes = Math.floor((difference / 1000 / 60) % 60);
-                const seconds = Math.floor((difference / 1000) % 60);
+            if (distance > 0) {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
                 document.getElementById('days').textContent = String(days).padStart(2, '0');
                 document.getElementById('hours').textContent = String(hours).padStart(2, '0');
                 document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
                 document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            } else {
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
             }
         }
 
+        // Initialize countdown
         updateCountdown();
         setInterval(updateCountdown, 1000);
 
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
+        // Page interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            const envelopeSection = document.getElementById('envelopeSection');
+            
+            // Click to open envelope
+            envelopeSection.addEventListener('click', function() {
+                window.scrollTo({
+                    top: window.innerHeight,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Hide scroll indicator when scrolled
+            window.addEventListener('scroll', function() {
+                const scrollIndicator = document.getElementById('scrollIndicator');
+                if (window.scrollY > 100) {
+                    scrollIndicator.style.opacity = '0';
+                    scrollIndicator.style.pointerEvents = 'none';
+                } else {
+                    scrollIndicator.style.opacity = '1';
+                    scrollIndicator.style.pointerEvents = 'auto';
                 }
             });
+
+            // Confetti animation on page load
+            createConfetti();
         });
+
+        function createConfetti() {
+            const colors = ['#d4a574', '#8b7355', '#e8d5c4', '#f5e6d3'];
+            for (let i = 0; i < 30; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animation = `confettiFall ${2 + Math.random() * 2}s ease-in forwards`;
+                confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                document.body.appendChild(confetti);
+
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+
+        function handleRSVP() {
+            alert('Thank you for your interest! Please reply to the invitation email to confirm your attendance.');
+        }
+
+        // Parallax effect on scroll (optimized for mobile)
+        let ticking = false;
+        window.addEventListener('scroll', function() {
+            if (!ticking) {
+                window.requestAnimationFrame(function() {
+                    const scrolled = window.scrollY;
+                    const floralArch = document.querySelector('.floral-arch');
+                    if (floralArch) {
+                        floralArch.style.transform = `translateY(${scrolled * 0.5}px)`;
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
     </script>
 </body>
 </html>
