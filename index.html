@@ -136,16 +136,6 @@
 
   .hero-inner{ position:relative; z-index:2; margin-top:36px; }
 
-  .hero .blessing{
-    font-family:var(--font-display);
-    font-style:italic;
-    font-size:15px;
-    letter-spacing:.05em;
-    color:var(--gold-light);
-    opacity:0;
-    animation:fadeUp .9s ease forwards .15s;
-  }
-
   .hero .names{
     font-family:var(--font-display);
     font-size:clamp(50px, 15vw, 88px);
@@ -347,6 +337,12 @@
   }
   .venue-box .v-name{ font-family:var(--font-display); font-size:24px; color:var(--gold-light); font-weight:700; }
   .venue-box .v-city{ font-size:13.5px; color:rgba(251,242,222,0.75); margin-top:4px; }
+  .venue-map{
+    margin-top:16px; border-radius:14px; overflow:hidden;
+    border:1px solid rgba(201,162,39,0.28);
+    filter:grayscale(15%) sepia(8%);
+  }
+  .venue-map iframe{ width:100%; height:220px; display:block; border:0; }
   .btn{
     display:inline-flex; align-items:center; gap:8px;
     margin-top:18px; padding:14px 24px; min-height:48px;
@@ -532,6 +528,11 @@
             <span class="eyebrow" style="text-align:left; margin-bottom:2px;">Please Join Us At</span>
             <div class="v-name">Jalandhar Heights 3</div>
             <div class="v-city">Jalandhar, Punjab</div>
+            <div class="venue-map">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3410.7458161488903!2d75.58430067485878!3d31.25545916018388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391a5d5591dfc427%3A0xe49fac65c1a325c6!2sJalandhar%20Heights-III!5e0!3m2!1sen!2sin!4v1782989926992!5m2!1sen!2sin"
+                width="100%" height="220" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"
+                title="Map to Jalandhar Heights 3"></iframe>
+            </div>
             <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Jalandhar%20Heights%203%2C%20Jalandhar%2C%20Punjab" target="_blank" rel="noopener">
               Get Directions
             </a>
@@ -555,13 +556,8 @@
     </p>
 
     <div class="rsvp-row">
-      <!-- TODO(Hitin): replace 91XXXXXXXXXX with the real WhatsApp number -->
-      <a class="btn-outline" href="https://wa.me/91XXXXXXXXXX?text=Hi!%20I'd%20love%20to%20confirm%20my%20presence%20for%20Jatin%20%26%20Breanna's%20wedding." target="_blank" rel="noopener">
+      <a class="btn-outline" href="https://wa.me/919815291212?text=Hi!%20I'd%20love%20to%20confirm%20my%20presence%20for%20Jatin%20%26%20Breanna's%20wedding." target="_blank" rel="noopener">
         RSVP on WhatsApp
-      </a>
-      <!-- TODO(Hitin): replace with the real contact email -->
-      <a class="btn-outline" href="mailto:rsvp@example.com?subject=RSVP%20-%20Jatin%20%26%20Breanna's%20Wedding">
-        RSVP via Email
       </a>
     </div>
     <p class="rsvp-note">Kindly confirm by 15th July 2026 &middot; Dress in your festive best, gold &amp; red always welcome &#10022;</p>
