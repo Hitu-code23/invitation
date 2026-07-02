@@ -199,16 +199,28 @@
     to{ opacity:1; transform:translateY(0);}
   }
 
+  /* Scroll cue — a real, centered, clickable button */
   .scroll-cue{
     position:absolute;
-    bottom:calc(24px + var(--safe-b)); left:50%;
-    transform:translateX(-50%);
+    bottom:calc(24px + var(--safe-b));
+    left:0;
+    right:0;
+    margin:0 auto;
+    width:max-content;
     display:flex; flex-direction:column; align-items:center; gap:8px;
     font-size:10.5px; letter-spacing:.22em; text-transform:uppercase;
     color:var(--gold-light);
     opacity:0;
     animation:fadeUp .9s ease forwards 1.35s;
+    background:none;
+    border:none;
+    padding:10px 14px;
+    margin-top:0;
+    font-family:inherit;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
   }
+  .scroll-cue:hover{ color:var(--gold-pale); }
   .scroll-cue .thread{
     width:1.5px; height:26px;
     background:linear-gradient(var(--gold-light), transparent);
@@ -322,6 +334,14 @@
     margin-top:6px;
   }
   .tl-event.jaggo h3{ color:var(--gold-light); }
+
+  .tl-event.mehndi .tl-body{
+    background:linear-gradient(160deg, rgba(74,15,30,0.4), rgba(42,8,16,0.2));
+    border:1px solid rgba(201,162,39,0.22);
+    border-radius:14px;
+    padding:18px 20px;
+    margin-top:6px;
+  }
 
   /* ============================================================
      VENUE
@@ -440,16 +460,16 @@
     <p class="parents">With the loving blessings of<br>Smt. Veena Banga &amp; Sh. Kuldeep Banga</p>
   </div>
 
-  <div class="scroll-cue">
+  <button type="button" class="scroll-cue" id="scrollCue" aria-label="Scroll to explore the invitation">
     <span>Scroll</span>
     <span class="thread"></span>
-  </div>
+  </button>
 </section>
 
 <!-- ============================================================
      WELCOME
      ============================================================ -->
-<section class="welcome">
+<section class="welcome" id="welcome">
   <div class="container">
     <div class="reveal">
       <span class="eyebrow">A Little Note</span>
@@ -486,19 +506,19 @@
       <div class="tl-event reveal">
         <div class="tl-node"></div>
         <div class="tl-body">
-          <h3>Mehndi</h3>
+          <h3>Haldi</h3>
           <span class="tl-time">10:00 AM onward</span>
-          <p>Intricate henna, folk songs and the first flutter of pre-wedding excitement — the bride's hands (and everyone else's) get their most beautiful adornment.</p>
+          <p>Turmeric, laughter and a whole lot of playful mess — families gather to bless the couple with haldi's golden glow before the big day.</p>
           <span class="tl-venue">Jalandhar Heights 3, Jalandhar</span>
         </div>
       </div>
 
-      <div class="tl-event reveal">
+      <div class="tl-event mehndi reveal">
         <div class="tl-node"></div>
         <div class="tl-body">
-          <h3>Haldi</h3>
-          <span class="tl-time">1:00 PM onward</span>
-          <p>Turmeric, laughter and a whole lot of playful mess — families gather to bless the couple with haldi's golden glow before the big day.</p>
+          <h3>Mehndi</h3>
+          <span class="tl-time">7:00 PM onward</span>
+          <p>Intricate henna, folk songs and the first flutter of pre-wedding excitement under the evening lights — the bride's hands (and everyone else's) get their most beautiful adornment.</p>
           <span class="tl-venue">Jalandhar Heights 3, Jalandhar</span>
         </div>
       </div>
@@ -601,6 +621,15 @@
     revealEls.forEach(function(el){ io.observe(el); });
   } else {
     revealEls.forEach(function(el){ el.classList.add('in-view'); });
+  }
+
+  /* ---------- Scroll cue button: actually scrolls to next section ---------- */
+  var scrollCue = document.getElementById('scrollCue');
+  var welcomeSection = document.getElementById('welcome');
+  if(scrollCue && welcomeSection){
+    scrollCue.addEventListener('click', function(){
+      welcomeSection.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    });
   }
 
   /* ---------- Timeline rail fills as you scroll past it ---------- */
