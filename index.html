@@ -358,11 +358,31 @@
   .venue-box .v-name{ font-family:var(--font-display); font-size:24px; color:var(--gold-light); font-weight:700; }
   .venue-box .v-city{ font-size:13.5px; color:rgba(251,242,222,0.75); margin-top:4px; }
   .venue-map{
+    position:relative;
     margin-top:16px; border-radius:14px; overflow:hidden;
-    border:1px solid rgba(201,162,39,0.28);
-    filter:grayscale(15%) sepia(8%);
+    border:1px solid rgba(201,162,39,0.32);
+    box-shadow:0 0 0 1px rgba(0,0,0,0.2), 0 12px 28px rgba(0,0,0,0.35);
   }
-  .venue-map iframe{ width:100%; height:220px; display:block; border:0; }
+  .venue-map iframe{
+    width:100%; height:220px; display:block; border:0;
+    /* re-tone the stock light map into the maroon/gold palette */
+    filter:grayscale(35%) sepia(28%) saturate(220%) hue-rotate(305deg) brightness(0.62) contrast(1.08);
+  }
+  /* warm tint + vignette so the map reads as part of the invitation, not a widget dropped on top */
+  .venue-map::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(160deg, rgba(74,15,30,0.4), rgba(42,8,16,0.12) 45%, rgba(201,162,39,0.14));
+    mix-blend-mode:multiply;
+    pointer-events:none;
+  }
+  .venue-map::before{
+    content:"";
+    position:absolute; inset:0;
+    box-shadow:inset 0 0 26px rgba(27,4,8,0.65);
+    pointer-events:none;
+    z-index:2;
+  }
   .btn{
     display:inline-flex; align-items:center; gap:8px;
     margin-top:18px; padding:14px 24px; min-height:48px;
