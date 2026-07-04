@@ -316,6 +316,7 @@
     -webkit-tap-highlight-color:transparent;
   }
   .scroll-cue:hover{ color:var(--gold-pale); }
+  .scroll-cue:active{ transform:scale(.94); transition:transform .1s ease; }
   .scroll-cue .thread{
     width:1.5px; height:26px;
     background:linear-gradient(var(--gold-light), transparent);
@@ -456,6 +457,20 @@
     background:var(--gold-light);
     box-shadow:0 0 9px rgba(232,205,130,.55);
   }
+  /* A small glowing light travelling down the rail in sync with scroll
+     progress — a quiet flame carrying the journey from Haldi to Reception */
+  .rail-light{
+    position:absolute; left:var(--rail-x); top:6px;
+    width:10px; height:10px; margin-left:-4px;
+    border-radius:50%;
+    background:radial-gradient(circle, #FFF6DE 0%, var(--gold-light) 55%, transparent 78%);
+    box-shadow:0 0 10px 3px rgba(232,205,130,.75), 0 0 22px 6px rgba(232,205,130,.35);
+    opacity:0;
+    transition:opacity .4s ease;
+    pointer-events:none;
+    will-change:top;
+  }
+  .rail-light.visible{ opacity:1; }
 
   .tl-day{ position:relative; margin:0 0 26px; }
   .tl-day:not(:first-child){ margin-top:56px; }
@@ -567,6 +582,14 @@
   .tl-photo img{
     width:100%; height:auto; display:block;
     aspect-ratio:4/3; object-fit:cover;
+    transform:scale(1);
+    animation:kenBurns 18s ease-in-out infinite alternate;
+    animation-play-state:paused;
+  }
+  .reveal.in-view .tl-photo img{ animation-play-state:running; }
+  @keyframes kenBurns{
+    0%{ transform:scale(1) translate(0,0); }
+    100%{ transform:scale(1.09) translate(-1.5%, -1%); }
   }
 
   /* ============================================================
@@ -640,7 +663,7 @@
     box-shadow:0 0 0 rgba(232,205,130,0);
   }
   .btn:hover{ background:var(--gold-pale); transform:translateY(-2px); box-shadow:0 8px 22px rgba(232,205,130,.3); }
-  .btn:active{ transform:translateY(0); }
+  .btn:active{ transform:translateY(0) scale(.96); box-shadow:0 2px 8px rgba(232,205,130,.25); transition-duration:.1s; }
 
   /* ============================================================
      FOOTER
@@ -713,6 +736,7 @@
     transition:background .35s ease, border-color .35s ease, transform .35s ease, box-shadow .35s ease;
     flex-shrink:0;
   }
+  .side-dots button:active .dot{ transform:scale(1.6); }
   .side-dots .dot-label{
     font-family:var(--font-body);
     font-size:10px;
@@ -757,6 +781,7 @@
     .stitch path{ stroke-dashoffset:0; }
     .reveal{ opacity:1; transform:none; }
     .rail-fill{ height:100% !important; }
+    .rail-light{ display:none !important; }
     .chapter-seam .ln{ transform:scaleX(1); }
     .chapter-seam .mark{ opacity:1; }
   }
@@ -888,6 +913,7 @@
     <div class="rail-wrap" id="railWrap">
       <div class="rail-track"></div>
       <div class="rail-fill" id="railFill"></div>
+      <div class="rail-light" id="railLight" aria-hidden="true"></div>
 
       <div class="tl-day reveal">
         <div class="tl-node"></div>
@@ -1205,10 +1231,12 @@
   /* ---------- Timeline rail fills as you scroll past it ---------- */
   var railWrap = document.getElementById('railWrap');
   var railFill = document.getElementById('railFill');
+  var railLight = document.getElementById('railLight');
 
   if(railWrap && railFill){
     if(reduceMotion){
       railFill.style.height = '100%';
+      if(railLight) railLight.style.display = 'none';
     } else {
       var ticking = false;
       var updateRail = function(){
@@ -1217,6 +1245,10 @@
         var progress = (vh * 0.7 - rect.top) / rect.height;
         progress = Math.max(0, Math.min(1, progress));
         railFill.style.height = (progress * 100) + '%';
+        if(railLight){
+          railLight.style.top = (progress * rect.height) + 'px';
+          railLight.classList.toggle('visible', progress > 0.01 && progress < 0.999);
+        }
         ticking = false;
       };
       var onScroll = function(){
