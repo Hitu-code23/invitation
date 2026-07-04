@@ -673,6 +673,83 @@
   }
 
   /* ============================================================
+     SIDE PROGRESS DOTS — a quiet vertical nav marking which
+     ceremony is currently in view, tap any dot to jump to it
+     ============================================================ */
+  .side-dots{
+    position:fixed;
+    right:14px;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:40;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:16px;
+    opacity:0;
+    transition:opacity .5s ease;
+    pointer-events:none;
+  }
+  .side-dots.visible{ opacity:1; pointer-events:auto; }
+
+  .side-dots button{
+    -webkit-tap-highlight-color:transparent;
+    background:none;
+    border:none;
+    padding:6px 0;
+    margin:0;
+    width:96px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:8px;
+  }
+  .side-dots .dot{
+    width:7px; height:7px;
+    border-radius:50%;
+    border:1.4px solid rgba(232,205,130,0.55);
+    background:transparent;
+    transition:background .35s ease, border-color .35s ease, transform .35s ease, box-shadow .35s ease;
+    flex-shrink:0;
+  }
+  .side-dots .dot-label{
+    font-family:var(--font-body);
+    font-size:10px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:rgba(251,242,222,0.55);
+    white-space:nowrap;
+    opacity:0;
+    transform:translateX(4px);
+    transition:opacity .3s ease, transform .3s ease;
+    pointer-events:none;
+  }
+  .side-dots button:hover .dot-label,
+  .side-dots button:focus-visible .dot-label{
+    opacity:1;
+    transform:translateX(0);
+  }
+  .side-dots button.active .dot{
+    background:var(--gold-light);
+    border-color:var(--gold-light);
+    transform:scale(1.35);
+    box-shadow:0 0 9px rgba(232,205,130,.65);
+  }
+  .side-dots button.active .dot-label{
+    opacity:1;
+    color:var(--gold-light);
+    transform:translateX(0);
+  }
+
+  @media (max-width: 480px){
+    .side-dots{ right:8px; gap:13px; }
+    .side-dots .dot-label{ display:none; }
+    .side-dots .dot{ width:6px; height:6px; }
+    .side-dots button{ width:24px; padding:6px 0; }
+  }
+
+  /* ============================================================
      REDUCED MOTION
      ============================================================ */
   @media (prefers-reduced-motion: reduce){
@@ -688,6 +765,24 @@
 <body>
 
 <div class="bg-fixed" aria-hidden="true"></div>
+
+<nav class="side-dots" id="sideDots" aria-label="Jump to ceremony">
+  <button type="button" data-target="ev-haldi" aria-label="Jump to Haldi">
+    <span class="dot-label">Haldi</span><span class="dot"></span>
+  </button>
+  <button type="button" data-target="ev-mehndi" aria-label="Jump to Mehndi">
+    <span class="dot-label">Mehndi</span><span class="dot"></span>
+  </button>
+  <button type="button" data-target="ev-jaggo" aria-label="Jump to Jaggo">
+    <span class="dot-label">Jaggo</span><span class="dot"></span>
+  </button>
+  <button type="button" data-target="ev-wedding" aria-label="Jump to Wedding Ceremony">
+    <span class="dot-label">Wedding</span><span class="dot"></span>
+  </button>
+  <button type="button" data-target="ev-reception" aria-label="Jump to Reception">
+    <span class="dot-label">Reception</span><span class="dot"></span>
+  </button>
+</nav>
 
 <!-- ============================================================
      HERO
@@ -800,7 +895,7 @@
         <span class="tl-date">23<sup style="font-size:0.35em;">rd</sup> July</span>
       </div>
 
-      <div class="tl-event haldi reveal">
+      <div class="tl-event haldi reveal" id="ev-haldi">
         <div class="tl-node"></div>
         <div class="tl-body">
           <div class="tl-photo">
@@ -813,7 +908,7 @@
         </div>
       </div>
 
-      <div class="tl-event mehndi reveal">
+      <div class="tl-event mehndi reveal" id="ev-mehndi">
         <div class="tl-node"></div>
         <div class="tl-body">
           <div class="tl-photo">
@@ -826,7 +921,7 @@
         </div>
       </div>
 
-      <div class="tl-event jaggo reveal">
+      <div class="tl-event jaggo reveal" id="ev-jaggo">
         <div class="tl-node"></div>
         <div class="tl-body">
           <div class="tl-photo">
@@ -845,7 +940,7 @@
         <span class="tl-date">25<sup style="font-size:0.35em;">th</sup> July</span>
       </div>
 
-      <div class="tl-event wedding reveal">
+      <div class="tl-event wedding reveal" id="ev-wedding">
         <div class="tl-node"></div>
         <div class="tl-body">
           <div class="tl-photo">
@@ -883,7 +978,7 @@
         <span class="tl-date">26<sup style="font-size:0.35em;">th</sup> July</span>
       </div>
 
-      <div class="tl-event reception reveal">
+      <div class="tl-event reception reveal" id="ev-reception">
         <div class="tl-node"></div>
         <div class="tl-body">
           <div class="tl-photo">
@@ -1047,6 +1142,65 @@
       welcomeSection.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
     });
   }
+
+  /* ---------- Side progress dots: highlight active section, scroll on click ---------- */
+  (function(){
+    var nav = document.getElementById('sideDots');
+    if(!nav) return;
+
+    var buttons = Array.prototype.slice.call(nav.querySelectorAll('button'));
+    var targets = buttons.map(function(btn){
+      return document.getElementById(btn.getAttribute('data-target'));
+    });
+
+    buttons.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var target = document.getElementById(btn.getAttribute('data-target'));
+        if(target){
+          target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+        }
+      });
+    });
+
+    if('IntersectionObserver' in window){
+      var setActive = function(id){
+        buttons.forEach(function(btn){
+          btn.classList.toggle('active', btn.getAttribute('data-target') === id);
+        });
+      };
+
+      var sectionObserver = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            setActive(entry.target.id);
+          }
+        });
+      }, { threshold: 0.4, rootMargin: '-20% 0px -20% 0px' });
+
+      targets.forEach(function(t){ if(t) sectionObserver.observe(t); });
+
+      var visibilityObserver = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          nav.classList.toggle('visible', entry.isIntersecting);
+        });
+      }, { threshold: 0 });
+
+      var timelineEl = document.getElementById('timeline');
+      if(timelineEl) visibilityObserver.observe(timelineEl);
+
+      var footerEl = document.querySelector('footer');
+      if(footerEl){
+        var hideAtFooter = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if(entry.isIntersecting) nav.classList.remove('visible');
+          });
+        }, { threshold: 0.3 });
+        hideAtFooter.observe(footerEl);
+      }
+    } else {
+      nav.classList.add('visible');
+    }
+  })();
 
   /* ---------- Timeline rail fills as you scroll past it ---------- */
   var railWrap = document.getElementById('railWrap');
